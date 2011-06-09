@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
 <TextView  
-    android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
-    android:text="@string/hello"
-    />
-</LinearLayout>
+    android:id="@+id/label" android:text="@string/service_status" android:layout_width="wrap_content" android:layout_marginRight="5dip"/>
+<Button android:layout_height="wrap_content" android:layout_below="@+id/label" android:layout_width="wrap_content" android:layout_alignLeft="@+id/label" android:layout_alignRight="@+id/label" android:id="@+id/btn_toggle" android:text="@string/btn_start_service" android:onClick="btnToggleClicked"></Button>
+<TextView android:layout_height="wrap_content" android:text="TextView" android:layout_width="wrap_content" android:layout_toRightOf="@+id/label" android:layout_alignBottom="@+id/label" android:id="@+id/lbl_status"></TextView>
+<Button android:layout_alignParentBottom="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/btn_editPreferences" android:text="@string/btn_edit_preferences" android:onClick="btnEditPreferencesClicked"></Button>
+</RelativeLayout>
