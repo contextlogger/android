@@ -9,6 +9,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -18,6 +19,8 @@ import android.telephony.TelephonyManager;
 public class LoggerService extends Service {
 	public static final String LOGGER = "org.contextlogger.android.LoggerService.SERVICE";
 	public static final String PREFERENCES = "org.contextlogger.android.preferences";
+	private static DatabaseHelper databaseHelper;
+	public static SQLiteDatabase db;
 	private boolean isRunning = false;
 	private WifiReceiver wifiReceiver;
 	private TelephonyManager sourcePhoneState;
@@ -48,7 +51,9 @@ public class LoggerService extends Service {
 	public void onCreate() {
 		super.onCreate();
         sourcePhoneState = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
-        preferences = getSharedPreferences(LoggerService.PREFERENCES, MODE_WORLD_WRITEABLE);        
+        preferences = getSharedPreferences(LoggerService.PREFERENCES, MODE_WORLD_WRITEABLE);
+        databaseHelper = new DatabaseHelper(this.getApplicationContext(), null);
+        db = databaseHelper.getWritableDatabase();
 	}
 
 	@Override
