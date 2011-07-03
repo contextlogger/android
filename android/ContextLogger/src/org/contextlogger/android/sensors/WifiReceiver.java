@@ -2,7 +2,6 @@ package org.contextlogger.android.sensors;
 
 import org.contextlogger.android.DatabaseHelper;
 import org.contextlogger.android.LoggerService;
-
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,7 +10,7 @@ import android.net.wifi.WifiManager;
 import android.util.Log;
 
 public class WifiReceiver extends BroadcastReceiver {
-	
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		int state = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, -1);

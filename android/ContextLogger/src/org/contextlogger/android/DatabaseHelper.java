@@ -15,24 +15,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override 
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(CREATE_TABLE_SIGNAL_STRENGTH);
-		db.execSQL(CREATE_TABLE_CALL_STATE);
-		db.execSQL(CREATE_TABLE_CELL_LOCATION);
-		db.execSQL(CREATE_TABLE_CALL_FORWARDING);
-		db.execSQL(CREATE_TABLE_DATA_CONNECTION_STATE);
-		db.execSQL(CREATE_TABLE_SERVICE_STATE);
-		db.execSQL(CREATE_TABLE_WIFI_ONOFF);
+			db.execSQL(CREATE_TABLE_SIGNAL_STRENGTH);
+			db.execSQL(CREATE_TABLE_CALL_STATE);
+			db.execSQL(CREATE_TABLE_CELL_LOCATION);
+			db.execSQL(CREATE_TABLE_CALL_FORWARDING);
+			db.execSQL(CREATE_TABLE_DATA_CONNECTION_STATE);
+			db.execSQL(CREATE_TABLE_SERVICE_STATE);
+			db.execSQL(CREATE_TABLE_WIFI_ONOFF);
+			db.execSQL(CREATE_TABLE_WIFI_NETWORKS);
+			db.execSQL(CREATE_TABLE_BT_DEVICES);
+			db.execSQL(CREATE_TABLE_BT_STATE);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL(DROP_TABLE_CALL_STATE);
-		db.execSQL(DROP_TABLE_SIGNAL_STRENGTH);
-//		db.execSQL(DROP_TABLE_CELL_LOCATION);
-//		db.execSQL(DROP_TABLE_CALL_FORWARDING);
-//		db.execSQL(DROP_TABLE_DATA_CONNECTION_STATE);
-//		db.execSQL(DROP_TABLE_SERVICE_STATE);
-//		db.execSQL(DROP_TABLE_WIFI_ONOFF);
+		try {
+			db.execSQL(DROP_TABLE_CALL_STATE);
+			db.execSQL(DROP_TABLE_SIGNAL_STRENGTH);
+			db.execSQL(DROP_TABLE_CELL_LOCATION);
+			db.execSQL(DROP_TABLE_CALL_FORWARDING);
+			db.execSQL(DROP_TABLE_DATA_CONNECTION_STATE);
+			db.execSQL(DROP_TABLE_SERVICE_STATE);
+			db.execSQL(DROP_TABLE_WIFI_ONOFF);
+			db.execSQL(DROP_TABLE_WIFI_NETWORKS);
+			db.execSQL(DROP_TABLE_BT_DEVICES);
+			db.execSQL(DROP_TABLE_BT_STATE);
+		} catch (Exception e) {
+//			do nothing, it's probably that the table doesn't exist yet
+//			TODO improve in the future so that the logger figures out by itself the difference between versions
+		}
 		onCreate(db);
 	}
 	
@@ -44,6 +55,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private final String CREATE_TABLE_DATA_CONNECTION_STATE = "CREATE TABLE data_connection_state (type NUMERIC, time NUMERIC, state NUMERIC)";
 	private final String CREATE_TABLE_SERVICE_STATE = "CREATE TABLE service_state (time NUMERIC, value NUMERIC)";
 	private final String CREATE_TABLE_WIFI_ONOFF = "CREATE TABLE wifi_onoff (time NUMERIC, value NUMERIC)";
+	private final String CREATE_TABLE_WIFI_NETWORKS = "CREATE TABLE wifi_networks (time NUMERIC, ssid TEXT, capabilities TEXT, signalStrength NUMERIC, bssid TEXT, frequency TEXT)";
+	private final String CREATE_TABLE_BT_DEVICES = "CREATE TABLE bt_devices (deviceAddress TEXT, deviceName TEXT, time NUMERIC)";
+	private final String CREATE_TABLE_BT_STATE = "CREATE TABLE bt_state (time NUMERIC, state NUMERIC, byUser NUMERIC)";
 	
 //	SQL for deleting tables
 	private final String DROP_TABLE_SIGNAL_STRENGTH = "DROP TABLE signal_strength";
@@ -53,6 +67,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private final String DROP_TABLE_DATA_CONNECTION_STATE = "DROP TABLE data_connection_state";
 	private final String DROP_TABLE_SERVICE_STATE = "DROP TABLE service_state";
 	private final String DROP_TABLE_WIFI_ONOFF = "DROP TABLE wifi_onoff";
+	private final String DROP_TABLE_WIFI_NETWORKS = "DROP TABLE wifi_networks";
+	private final String DROP_TABLE_BT_DEVICES = "DROP TABLE bt_devices";
+	private final String DROP_TABLE_BT_STATE = "DROP TABLE bt_state";
 	
 //	table specific data
 	public static final String TABLE_NAME_SIGNAL_STRENGTH = "signal_strength";
@@ -62,6 +79,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String TABLE_NAME_DATA_CONNECTION_STATE = "data_connection_state";
 	public static final String TABLE_NAME_SERVICE_STATE = "service_state";
 	public static final String TABLE_NAME_WIFI_ONOFF = "wifi_onoff";
+	public static final String TABLE_NAME_WIFI_NETWORKS = "wifi_networks";
+	public static final String TABLE_NAME_BT_DEVICES = "bt_devices";
+	public static final String TABLE_NAME_BT_STATE = "bt_state";
 	
 	public static final String TABLE_SIGNAL_STRENGTH_TIME = "time";
 	public static final String TABLE_SIGNAL_STRENGTH_GSMSIGNAL = "gsmSignal";
@@ -85,4 +105,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	
 	public static final String TABLE_WIFI_ONOFF_TIME = "time";
 	public static final String TABLE_WIFI_ONOFF_VALUE = "value";
+	
+	public static final String TABLE_WIFI_NETWORKS_TIME = "time";
+	public static final String TABLE_WIFI_NETWORKS_SSID = "ssid";
+	public static final String TABLE_WIFI_NETWORKS_CAPABILITIES = "capabilities";
+	public static final String TABLE_WIFI_NETWORKS_SIGNALSTRENGTH = "signalStrength";
+	public static final String TABLE_WIFI_NETWORKS_BSSID = "bssid";
+	public static final String TABLE_WIFI_NETWORKS_FREQUENCY = "FREQUENCY";
+	
+	public static final String TABLE_BT_DEVICES_TIME = "time";
+	public static final String TABLE_BT_DEVICES_NAME = "deviceName";
+	public static final String TABLE_BT_DEVICES_ADDRESS = "deviceAddress";
+	
+	public static final String TABLE_BT_STATE_TIME = "time";
+	public static final String TABLE_BT_STATE_STATE = "state";
+	public static final String TABLE_BT_STATE_BYUSER = "byUser";
 }

@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import misc.*;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.view.View;
@@ -35,6 +36,14 @@ public class Main extends Activity {
 		}
 	};
 	
+	
+	
+	@Override
+	protected void onPause() {
+		new ExportDatabaseFileTask().execute(null);
+		super.onPause();
+	}
+
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -129,6 +138,9 @@ public class Main extends Activity {
         editor.putBoolean(getString(R.string.pref_data_connection_state), true);
         editor.putBoolean(getString(R.string.pref_service_state), true);
         editor.putBoolean(getString(R.string.pref_wifi_onoff), true);
+        editor.putBoolean(getString(R.string.pref_wifi_networks), true);
+        editor.putBoolean(getString(R.string.pref_bt_devices), true);
+        editor.putInt(getString(R.string.pref_bt_frequency), 10);
         
         // mark that the first run has already happened
         editor.putBoolean(getString(R.string.pref_first_run), false);

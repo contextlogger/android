@@ -1,18 +1,27 @@
 package org.contextlogger.android;
 
+import org.contextlogger.android.sensors.BluetoothReceiver;
 import org.contextlogger.android.sensors.StateListener;
 import org.contextlogger.android.sensors.WifiReceiver;
+import org.contextlogger.android.sensors.WifiReceiverNetworks;
 
 import com.contextlogger.android.R;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.os.SystemClock;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
@@ -23,9 +32,11 @@ public class LoggerService extends Service {
 	public static SQLiteDatabase db;
 	private boolean isRunning = false;
 	private WifiReceiver wifiReceiver;
+	private WifiReceiverNetworks wifiRecNetworks;
 	private TelephonyManager sourcePhoneState;
 	private StateListener sl_signalStrengths, sl_cellLocation, sl_callState, sl_callForwarding, sl_dataConnection, sl_serviceState;
 	private SharedPreferences preferences;
+	private BluetoothReceiver btReceiver;
 	private IRemoteLogger.Stub remoteInterfaceBinder = new IRemoteLogger.Stub() {
 		
 		@Override
@@ -159,6 +170,49 @@ public class LoggerService extends Service {
         	if (wifiReceiver != null){
     			try {
     				unregisterReceiver(wifiReceiver);
+    			} catch (IllegalArgumentException e){
+    				// do nothing, this is just a work around the lack for an api to check if the receiver is registered
+    			}
+    		}
+        }
+		if (preferences.getBoolean(getString(R.string.pref_wifi_networks), false)){
+    		wifiRecNetworks = new WifiReceiverNetworks();
+        	registerReceiver(wifiRecNetworks, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        } else {
+        	if (wifiRecNetworks != null){
+    			try {
+    				unregisterReceiver(wifiRecNetworks);
+    			} catch (IllegalArgumentException e){
+    				// do nothing, this is just a work around the lack for an api to check if the receiver is registered
+    			}
+    		}
+        }
+		
+		if (preferences.getBoolean(getString(R.string.pref_bt_devices), false)){
+			if (btReceiver == null) {
+	    		btReceiver = new BluetoothReceiver();
+	        	registerReceiver(btReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
+	        	registerReceiver(btReceiver, new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_STARTED));
+	        	registerReceiver(btReceiver, new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED));
+	        	registerReceiver(btReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
+	        	registerReceiver(btReceiver, new IntentFilter("ACTION_START_BT_SCAN"));
+	//        	TODO scheduler
+	        	AlarmManager alm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+	        	Intent i = new Intent(getString(R.string.ACTION_START_BT_SCAN));
+	        	PendingIntent filter = PendingIntent.getBroadcast(this, 0, i, 0);
+	        	alm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 
+	        			30000, filter);
+	        	android.util.Log.d("app", "scheduled timer");
+			}
+        } else {
+        	if (btReceiver != null){
+    			try {
+    				AlarmManager alm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+    				Intent i = new Intent(getString(R.string.ACTION_START_BT_SCAN));
+    	        	PendingIntent filter = PendingIntent.getBroadcast(this, 0, i, 0);
+    				alm.cancel(filter);
+    				unregisterReceiver(btReceiver);
+    				btReceiver = null;
     			} catch (IllegalArgumentException e){
     				// do nothing, this is just a work around the lack for an api to check if the receiver is registered
     			}

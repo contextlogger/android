@@ -79,7 +79,7 @@ public class StateListener extends PhoneStateListener {
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHelper.TABLE_SERVICE_STATE_TIME, System.currentTimeMillis()/1000);
 		values.put(DatabaseHelper.TABLE_SERVICE_STATE_VALUE, "" + serviceState.getState());
-		LoggerService.db.insert(DatabaseHelper.TABLE_NAME_CELL_LOCATION, null, values);
+		LoggerService.db.insert(DatabaseHelper.TABLE_NAME_SERVICE_STATE, null, values);
 	}
 	
 	
