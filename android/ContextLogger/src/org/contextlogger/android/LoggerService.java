@@ -5,7 +5,7 @@ import org.contextlogger.android.sensors.StateListener;
 import org.contextlogger.android.sensors.WifiReceiver;
 import org.contextlogger.android.sensors.WifiReceiverNetworks;
 
-import com.contextlogger.android.R;
+import org.contextlogger.android.R;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

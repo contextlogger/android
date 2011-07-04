@@ -3,7 +3,7 @@ package org.contextlogger.android.sensors;
 import org.contextlogger.android.DatabaseHelper;
 import org.contextlogger.android.LoggerService;
 
-import com.contextlogger.android.R;
+import org.contextlogger.android.R;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;

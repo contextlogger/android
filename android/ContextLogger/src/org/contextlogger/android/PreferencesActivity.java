@@ -1,7 +1,7 @@
 package org.contextlogger.android;
 
 
-import com.contextlogger.android.R;
+import org.contextlogger.android.R;
 
 import android.app.Activity;
 import android.content.ComponentName;

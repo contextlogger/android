@@ -1,7 +1,7 @@
 package org.contextlogger.android;
 
 
-import com.contextlogger.android.R;
+import org.contextlogger.android.R;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import misc.*;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.view.View;
@@ -40,7 +39,6 @@ public class Main extends Activity {
 	
 	@Override
 	protected void onPause() {
-		new ExportDatabaseFileTask().execute(null);
 		super.onPause();
 	}
 
