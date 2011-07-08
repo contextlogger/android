@@ -46,36 +46,7 @@ public class PreferencesActivity extends Activity {
 		setContentView(R.layout.preferences);
 		
 		LinearLayout list = (LinearLayout)findViewById(R.id.lnr_listOfPreferences);
-		
-//		set up url textEdit listener
-		final EditText txt_url = (EditText)findViewById(R.id.txt_url);
-		txt_url.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void afterTextChanged(Editable s) {
-				SharedPreferences.Editor editor = preferences.edit();
-				editor.putString(getString(R.string.pref_url), txt_url.getText().toString());
-				boolean committed = editor.commit();
-				while (!committed){
-					committed = editor.commit();
-				}
-			}
-		});
-		
-		
+		 
 		CheckBox chk;
 		
 		chk = new CheckBox(this);
