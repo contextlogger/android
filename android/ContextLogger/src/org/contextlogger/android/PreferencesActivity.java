@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 public class PreferencesActivity extends Activity {
@@ -41,6 +42,10 @@ public class PreferencesActivity extends Activity {
 		preferences = getSharedPreferences(LoggerService.PREFERENCES, MODE_WORLD_WRITEABLE);
 		
 		setContentView(R.layout.preferences);
+		
+		EditText txt_url = (EditText)findViewById(R.id.txt_url);
+		txt_url.setText(preferences.getString(getString(R.string.pref_upload_url), ""));
+		
 		
 		LinearLayout list = (LinearLayout)findViewById(R.id.lnr_listOfPreferences);
 		 
@@ -199,11 +204,19 @@ public class PreferencesActivity extends Activity {
         
 	}
 	
-	public void btn_savePreferences_clicked(View v){
+	@Override
+	public void onBackPressed() {
+//		save preference for upload URL
+		EditText txt_url = (EditText)findViewById(R.id.txt_url);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putString(getString(R.string.pref_upload_url), txt_url.getText().toString());
+		editor.commit();
+		
+//		notify the service about changes to the settings
 		notifyService();
-		finish();
+		super.onBackPressed();
 	}
-	
+
 	private void notifyService(){
 		if (remoteService != null){
 			try {

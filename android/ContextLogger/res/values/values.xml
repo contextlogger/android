@@ -8,9 +8,9 @@
     <string name="pref_data_connection_state">pref_data_connection_state</string>
     <string name="pref_service_state">pref_service_state</string>
     <string name="pref_first_run">pref_first_run</string>
-    <string name="pref_url">pref_url</string>
     <string name="pref_battery">pref_battery</string>
     <string name="pref_wifi_networks">pref_wifi_networks</string>
     <string name="pref_bt_devices">pref_bt_devices</string>
     <string name="pref_bt_frequency">pref_bt_frequency</string>
+    <string name="pref_upload_url">pref_upload_url</string>
 </resources>

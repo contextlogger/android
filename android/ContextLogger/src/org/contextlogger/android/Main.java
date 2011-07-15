@@ -2,7 +2,7 @@ package org.contextlogger.android;
 
 
 import org.contextlogger.android.R;
-
+import misc.ExportDatabaseFileTask;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -124,6 +124,28 @@ public class Main extends Activity {
     public void btnEditPreferencesClicked(View v){
     	Intent preferences = new Intent(this, PreferencesActivity.class);
     	startActivity(preferences);
+    }
+    
+    public void btn_export_clicked(View v){
+    	new ExportDatabaseFileTask().execute(preferences.getString(getString(R.string.pref_upload_url), ""), ExportDatabaseFileTask.ACTION_EXPORT);
+    }
+    
+    @Override
+	protected void onResume() {
+		if (preferences.getString(getString(R.string.pref_upload_url), "").equals("")){
+//			disable buttons
+			findViewById(R.id.btn_export).setEnabled(false);
+			findViewById(R.id.btn_upload).setEnabled(false);
+		} else {
+//			enable buttons
+			findViewById(R.id.btn_export).setEnabled(true);
+			findViewById(R.id.btn_upload).setEnabled(true);
+		}
+		super.onResume();
+	}
+
+	public void btn_upload_clicked(View v){
+		new ExportDatabaseFileTask().execute(preferences.getString(getString(R.string.pref_upload_url), ""), ExportDatabaseFileTask.ACTION_UPLOAD);
     }
     
     private void onFirstRun(){
