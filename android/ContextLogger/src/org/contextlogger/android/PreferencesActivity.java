@@ -15,6 +15,7 @@ import android.os.RemoteException;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 public class PreferencesActivity extends Activity {
@@ -42,6 +43,10 @@ public class PreferencesActivity extends Activity {
 		
 		setContentView(R.layout.preferences);
 		
+		EditText txt_url = (EditText)findViewById(R.id.txt_url);
+		txt_url.setText(preferences.getString(getString(R.string.pref_upload_url), ""));
+		
+		
 		LinearLayout list = (LinearLayout)findViewById(R.id.lnr_listOfPreferences);
 		
 		CheckBox chk;
@@ -59,7 +64,7 @@ public class PreferencesActivity extends Activity {
 				while (!committed){
 					committed = editor.commit();
 				}
-				notifyService();
+//				notifyService();
 			}
 		});
 		
@@ -78,7 +83,7 @@ public class PreferencesActivity extends Activity {
 				while (!committed){
 					committed = editor.commit();
 				}
-				notifyService();
+//				notifyService();
 			}
 		});
 		list.addView(chk);
@@ -96,7 +101,7 @@ public class PreferencesActivity extends Activity {
 				while (!committed){
 					committed = editor.commit();
 				}
-				notifyService();
+//				notifyService();
 			}
 		});
 		list.addView(chk);
@@ -114,7 +119,7 @@ public class PreferencesActivity extends Activity {
 				while (!committed){
 					committed = editor.commit();
 				}
-				notifyService();
+//				notifyService();
 			}
 		});
 
@@ -133,7 +138,7 @@ public class PreferencesActivity extends Activity {
 				while (!committed){
 					committed = editor.commit();
 				}
-				notifyService();
+//				notifyService();
 			}
 		});
 
@@ -152,7 +157,7 @@ public class PreferencesActivity extends Activity {
 				while (!committed){
 					committed = editor.commit();
 				}
-				notifyService();
+//				notifyService();
 			}
 		});
 
@@ -171,7 +176,7 @@ public class PreferencesActivity extends Activity {
 				while (!committed){
 					committed = editor.commit();
 				}
-				notifyService();
+//				notifyService();
 			}
 		});
 
@@ -180,6 +185,19 @@ public class PreferencesActivity extends Activity {
         
 	}
 	
+	@Override
+	public void onBackPressed() {
+//		save preference for upload URL
+		EditText txt_url = (EditText)findViewById(R.id.txt_url);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putString(getString(R.string.pref_upload_url), txt_url.getText().toString());
+		editor.commit();
+		
+//		notify the service about changes to the settings
+		notifyService();
+		super.onBackPressed();
+	}
+
 	private void notifyService(){
 		if (remoteService != null){
 			try {

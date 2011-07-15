@@ -10,4 +10,6 @@
 <Button android:layout_height="wrap_content" android:layout_below="@+id/label" android:layout_width="wrap_content" android:layout_alignLeft="@+id/label" android:layout_alignRight="@+id/label" android:id="@+id/btn_toggle" android:text="@string/btn_start_service" android:onClick="btnToggleClicked"></Button>
 <TextView android:layout_height="wrap_content" android:text="TextView" android:layout_width="wrap_content" android:layout_toRightOf="@+id/label" android:layout_alignBottom="@+id/label" android:id="@+id/lbl_status"></TextView>
 <Button android:layout_alignParentBottom="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/btn_editPreferences" android:text="@string/btn_edit_preferences" android:onClick="btnEditPreferencesClicked"></Button>
+<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/btn_toggle" android:layout_alignParentLeft="true" android:id="@+id/btn_export" android:onClick="btn_export_clicked" android:text="@string/btn_export"></Button>
+<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/btn_toggle" android:onClick="btn_upload_clicked" android:id="@+id/btn_upload" android:text="@string/btn_upload" android:layout_toRightOf="@+id/btn_export"></Button>
 </RelativeLayout>

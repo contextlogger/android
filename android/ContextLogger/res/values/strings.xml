@@ -4,14 +4,18 @@
     <string name="app_name">ContextLogger</string>
     <string name="service_running">Running</string>
     <string name="service_stopped">Stopped</string>
-    <string name="btn_start_service">Start service!</string>
-    <string name="btn_stop_service">Stop service!</string>
-    <string name="btn_edit_preferences">Edit preferences</string>
-    <string name="chk_signal_strengths">Signal strengths</string>
+    
+    
+    <string name="btn_edit_preferences">Edit preferences</string><string name="btn_export">Export db2SD</string>
+    <string name="btn_start_service">Start service!</string><string name="btn_stop_service">Stop service!</string><string name="btn_upload">Upload db</string><string name="chk_signal_strengths">Signal strengths</string>
     <string name="chk_cell_location">Cell location</string>
     <string name="chk_wifi_onoff">Wifi on/off</string>
     <string name="chk_call_state">Call state</string>
     <string name="chk_call_forward_state">Call forward state</string>
     <string name="chk_data_connection">Data connection status</string>
     <string name="chk_service_status">Service status</string>
+    
+    
+    <string name="lbl_upload_url">Upload URL</string>
+    <string name="lbl_save_instructions">When you press \'Back\' the preferences will be saved and applied.</string>
 </resources>
