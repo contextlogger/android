@@ -134,11 +134,9 @@ public class Main extends Activity {
 	protected void onResume() {
 		if (preferences.getString(getString(R.string.pref_upload_url), "").equals("")){
 //			disable buttons
-			findViewById(R.id.btn_export).setEnabled(false);
 			findViewById(R.id.btn_upload).setEnabled(false);
 		} else {
 //			enable buttons
-			findViewById(R.id.btn_export).setEnabled(true);
 			findViewById(R.id.btn_upload).setEnabled(true);
 		}
 		super.onResume();

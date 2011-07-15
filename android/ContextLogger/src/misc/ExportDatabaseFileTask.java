@@ -37,7 +37,7 @@ public class ExportDatabaseFileTask extends AsyncTask<String, Void, Boolean> {
 
     private boolean exportFile(){
     	File dbFile =
-            new File(Environment.getDataDirectory() + "/data/com.contextlogger.android/databases/CL_database.db");
+            new File(Environment.getDataDirectory() + "/data/org.contextlogger.android/databases/CL_database.db");
 
 	   File exportDir = new File(Environment.getExternalStorageDirectory(), "");
 	   if (!exportDir.exists()) {
@@ -59,7 +59,7 @@ public class ExportDatabaseFileTask extends AsyncTask<String, Void, Boolean> {
     	String Boundary = "--7d021a37605f0";
     	URL url;
     	File dbFile =
-            new File(Environment.getDataDirectory() + "/data/com.contextlogger.android/databases/CL_database.db");
+            new File(Environment.getDataDirectory() + "/data/org.contextlogger.android/databases/CL_database.db");
     	try {
 			url = new URL(urlToUse);
 			HttpURLConnection theUrlConnection = (HttpURLConnection) url.openConnection();
