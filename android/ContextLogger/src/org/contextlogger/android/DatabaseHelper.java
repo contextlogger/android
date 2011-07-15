@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "CL_database.db";
-	private static final int DATABASE_VERSION = 6;
+	private static final int DATABASE_VERSION = 8;
 	
 	public DatabaseHelper(Context context, CursorFactory factory) {
 		super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -45,6 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		} catch (Exception e) {
 //			do nothing, it's probably that the table doesn't exist yet
 //			TODO improve in the future so that the logger figures out by itself the difference between versions
+			e.printStackTrace();
 		}
 		onCreate(db);
 	}

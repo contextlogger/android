@@ -117,7 +117,7 @@ public class Main extends Activity {
     	} else {
     		setLabels(true);
     		startService(service);
-    	}
+    	} 
 //    	
     }
     
