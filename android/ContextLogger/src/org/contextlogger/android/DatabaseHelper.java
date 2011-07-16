@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "CL_database.db";
-	private static final int DATABASE_VERSION = 8;
+	private static final int DATABASE_VERSION = 9;
 	
 	public DatabaseHelper(Context context, CursorFactory factory) {
 		super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -26,6 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			db.execSQL(CREATE_TABLE_BT_DEVICES);
 			db.execSQL(CREATE_TABLE_BT_STATE);
 			db.execSQL(CREATE_TABLE_BATTERY_INFO);
+			db.execSQL(CREATE_TABLE_LIGHT_DATA);
 	}
 
 	@Override
@@ -42,6 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			db.execSQL(DROP_TABLE_BT_DEVICES);
 			db.execSQL(DROP_TABLE_BT_STATE);
 			db.execSQL(DROP_TABLE_BATTERY_INFO);
+			db.execSQL(DROP_TABLE_LIGHT_DATA);
 		} catch (Exception e) {
 //			do nothing, it's probably that the table doesn't exist yet
 //			TODO improve in the future so that the logger figures out by itself the difference between versions
@@ -62,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private final String CREATE_TABLE_BT_DEVICES = "CREATE TABLE bt_devices (deviceAddress TEXT, deviceName TEXT, time NUMERIC)";
 	private final String CREATE_TABLE_BT_STATE = "CREATE TABLE bt_state (time NUMERIC, state NUMERIC, byUser NUMERIC)";
 	private final String CREATE_TABLE_BATTERY_INFO = "CREATE TABLE battery_info (time NUMERIC, health NUMERIC, level NUMERIC, maxLevel NUMERIC, plugged NUMERIC, present NUMERIC, status NUMERIC, technology TEXT, temperature NUMERIC, voltage NUMERIC)";
-	
+	private final String CREATE_TABLE_LIGHT_DATA = "CREATE TABLE light_data (time NUMERIC, value NUMERIC)";
 	
 //	SQL for deleting tables
 	private final String DROP_TABLE_SIGNAL_STRENGTH = "DROP TABLE signal_strength";
@@ -76,6 +78,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private final String DROP_TABLE_BT_DEVICES = "DROP TABLE bt_devices";
 	private final String DROP_TABLE_BT_STATE = "DROP TABLE bt_state";
 	private final String DROP_TABLE_BATTERY_INFO = "DROP TABLE battery_info";
+	private final String DROP_TABLE_LIGHT_DATA = "DROP TABLE light_data";
 	
 //	table specific data
 	public static final String TABLE_NAME_SIGNAL_STRENGTH = "signal_strength";
@@ -89,6 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String TABLE_NAME_BT_DEVICES = "bt_devices";
 	public static final String TABLE_NAME_BT_STATE = "bt_state";
 	public static final String TABLE_NAME_BATTERY_INFO = "battery_info";
+	public static final String TABLE_NAME_LIGHT_DATA = "light_data";
 	
 	public static final String TABLE_SIGNAL_STRENGTH_TIME = "time";
 	public static final String TABLE_SIGNAL_STRENGTH_GSMSIGNAL = "gsmSignal";
@@ -138,4 +142,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String TABLE_BATTERY_INFO_TECHNOLOGY = "technology";
 	public static final String TABLE_BATTERY_INFO_TEMPERATURE = "temperature";
 	public static final String TABLE_BATTERY_INFO_VOLTAGE = "voltage";
+	
+	public static final String TABLE_LIGHT_DATA_TIME = "time";
+	public static final String TABLE_LIGHT_DATA_VALUE = "value";
 }

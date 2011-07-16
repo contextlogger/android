@@ -11,7 +11,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -201,7 +200,24 @@ public class PreferencesActivity extends Activity {
 
 		list.addView(chk);
 		
-        
+		chk = new CheckBox(this);
+		chk.setText(getString(R.string.chk_light_sensor));
+		chk.setChecked(preferences.getBoolean(getString(R.string.pref_light_sensor), false));
+		chk.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				SharedPreferences.Editor editor = preferences.edit();
+				editor.putBoolean(getString(R.string.pref_light_sensor), isChecked);
+				boolean committed = editor.commit();
+				while (!committed){
+					committed = editor.commit();
+				}
+//				notifyService();
+			}
+		});
+
+		list.addView(chk);
 	}
 	
 	@Override

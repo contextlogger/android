@@ -1,6 +1,7 @@
 package org.contextlogger.android;
 
 import org.contextlogger.android.sensors.BatteryReceiver;
+import org.contextlogger.android.sensors.LightSensorReceiver;
 import org.contextlogger.android.sensors.StateListener;
 import org.contextlogger.android.sensors.WifiReceiver;
 import org.contextlogger.android.R;
@@ -25,6 +26,7 @@ public class LoggerService extends Service {
 	private WifiReceiver wifiReceiver;
 	private TelephonyManager sourcePhoneState;
 	private StateListener sl_signalStrengths, sl_cellLocation, sl_callState, sl_callForwarding, sl_dataConnection, sl_serviceState;
+	private LightSensorReceiver lightSensor;
 	private SharedPreferences preferences;
 	private IRemoteLogger.Stub remoteInterfaceBinder = new IRemoteLogger.Stub() {
 		
@@ -76,7 +78,7 @@ public class LoggerService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		isRunning = true;
 		// Add sensors according to preferences
-		updateSensorRegistrations();
+		updateSensorRegistrations();		
         return super.onStartCommand(intent, flags, startId);
 	}
 
@@ -106,6 +108,10 @@ public class LoggerService extends Service {
 				// TODO replace with something else if future APIs start supporting this
 				// do nothing, this is just a work around the lack for an api to check if the receiver is registered
 			}
+		}
+		
+		if (lightSensor != null){
+			lightSensor.unregister();
 		}
 	}
 	
@@ -172,6 +178,20 @@ public class LoggerService extends Service {
         	if (batteryReceiver != null){
     			try {
     				unregisterReceiver(batteryReceiver);
+    			} catch (IllegalArgumentException e){
+    				// do nothing, this is just a work around the lack for an api to check if the receiver is registered
+    			}
+    		}
+        }
+		
+		if (preferences.getBoolean(getString(R.string.pref_light_sensor), false)){
+        	if (lightSensor == null)
+        		lightSensor = new LightSensorReceiver(this);
+        } else {
+        	if (lightSensor != null){
+    			try {
+    				lightSensor.unregister();
+    				lightSensor = null;
     			} catch (IllegalArgumentException e){
     				// do nothing, this is just a work around the lack for an api to check if the receiver is registered
     			}

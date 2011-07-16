@@ -13,8 +13,9 @@
     <string name="chk_call_state">Call state</string>
     <string name="chk_call_forward_state">Call forward state</string>
     <string name="chk_data_connection">Data connection status</string>
-    <string name="chk_service_status">Service status</string>
+    <string name="chk_light_sensor">Light sensor</string><string name="chk_service_status">Service status</string>
     <string name="chk_battery_changed">Battery notifications</string>
     <string name="lbl_upload_url">Upload URL</string>
     <string name="lbl_save_instructions">When you press \'Back\' the preferences will be saved and applied.</string>
+    
 </resources>
