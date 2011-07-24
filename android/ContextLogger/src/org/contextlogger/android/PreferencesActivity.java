@@ -43,7 +43,7 @@ public class PreferencesActivity extends Activity {
 		setContentView(R.layout.preferences);
 		
 		EditText txt_url = (EditText)findViewById(R.id.txt_url);
-		txt_url.setText(preferences.getString(getString(R.string.pref_upload_url), ""));
+		txt_url.setText(preferences.getString(Constants.PREF_UPLOAD_URL, ""));
 		
 		
 		LinearLayout list = (LinearLayout)findViewById(R.id.lnr_listOfPreferences);
@@ -52,13 +52,13 @@ public class PreferencesActivity extends Activity {
 		
 		chk = new CheckBox(this);
 		chk.setText(getString(R.string.chk_signal_strengths));
-		chk.setChecked(preferences.getBoolean(getString(R.string.pref_signal_strenghts), false));
+		chk.setChecked(preferences.getBoolean(Constants.PREF_SIGNAL_STRENGTHS, false));
 		chk.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				SharedPreferences.Editor editor = preferences.edit();
-				editor.putBoolean(getString(R.string.pref_signal_strenghts), isChecked);
+				editor.putBoolean(Constants.PREF_SIGNAL_STRENGTHS, isChecked);
 				boolean committed = editor.commit();
 				while (!committed){
 					committed = editor.commit();
@@ -71,13 +71,13 @@ public class PreferencesActivity extends Activity {
 		
 		chk = new CheckBox(this);
 		chk.setText(getString(R.string.chk_wifi_onoff));
-		chk.setChecked(preferences.getBoolean(getString(R.string.pref_wifi_onoff), false));
+		chk.setChecked(preferences.getBoolean(Constants.PREF_WIFI_ONOFF, false));
 		chk.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				SharedPreferences.Editor editor = preferences.edit();
-				editor.putBoolean(getString(R.string.pref_wifi_onoff), isChecked);
+				editor.putBoolean(Constants.PREF_WIFI_ONOFF, isChecked);
 				boolean committed = editor.commit();
 				while (!committed){
 					committed = editor.commit();
@@ -89,13 +89,13 @@ public class PreferencesActivity extends Activity {
 		
 		chk = new CheckBox(this);
 		chk.setText(getString(R.string.chk_call_forward_state));
-		chk.setChecked(preferences.getBoolean(getString(R.string.pref_call_forwarding), false));
+		chk.setChecked(preferences.getBoolean(Constants.PREF_CALL_FORWARDING, false));
 		chk.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				SharedPreferences.Editor editor = preferences.edit();
-				editor.putBoolean(getString(R.string.pref_call_forwarding), isChecked);
+				editor.putBoolean(Constants.PREF_CALL_FORWARDING, isChecked);
 				boolean committed = editor.commit();
 				while (!committed){
 					committed = editor.commit();
@@ -107,13 +107,13 @@ public class PreferencesActivity extends Activity {
 		
 		chk = new CheckBox(this);
 		chk.setText(getString(R.string.chk_call_state));
-		chk.setChecked(preferences.getBoolean(getString(R.string.pref_call_state), false));
+		chk.setChecked(preferences.getBoolean(Constants.PREF_CALL_STATE, false));
 		chk.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				SharedPreferences.Editor editor = preferences.edit();
-				editor.putBoolean(getString(R.string.pref_call_state), isChecked);
+				editor.putBoolean(Constants.PREF_CALL_STATE, isChecked);
 				boolean committed = editor.commit();
 				while (!committed){
 					committed = editor.commit();
@@ -126,13 +126,13 @@ public class PreferencesActivity extends Activity {
 		
 		chk = new CheckBox(this);
 		chk.setText(getString(R.string.chk_data_connection));
-		chk.setChecked(preferences.getBoolean(getString(R.string.pref_data_connection_state), false));
+		chk.setChecked(preferences.getBoolean(Constants.PREF_DATA_CONNECTION_STATE, false));
 		chk.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				SharedPreferences.Editor editor = preferences.edit();
-				editor.putBoolean(getString(R.string.pref_data_connection_state), isChecked);
+				editor.putBoolean(Constants.PREF_DATA_CONNECTION_STATE, isChecked);
 				boolean committed = editor.commit();
 				while (!committed){
 					committed = editor.commit();
@@ -145,13 +145,13 @@ public class PreferencesActivity extends Activity {
 		
 		chk = new CheckBox(this);
 		chk.setText(getString(R.string.chk_service_status));
-		chk.setChecked(preferences.getBoolean(getString(R.string.pref_service_state), false));
+		chk.setChecked(preferences.getBoolean(Constants.PREF_SERVICE_STATE, false));
 		chk.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				SharedPreferences.Editor editor = preferences.edit();
-				editor.putBoolean(getString(R.string.pref_service_state), isChecked);
+				editor.putBoolean(Constants.PREF_SERVICE_STATE, isChecked);
 				boolean committed = editor.commit();
 				while (!committed){
 					committed = editor.commit();
@@ -164,13 +164,13 @@ public class PreferencesActivity extends Activity {
 		
 		chk = new CheckBox(this);
 		chk.setText(getString(R.string.chk_cell_location));
-		chk.setChecked(preferences.getBoolean(getString(R.string.pref_cell_location), false));
+		chk.setChecked(preferences.getBoolean(Constants.PREF_CELL_LOCATION, false));
 		chk.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				SharedPreferences.Editor editor = preferences.edit();
-				editor.putBoolean(getString(R.string.pref_cell_location), isChecked);
+				editor.putBoolean(Constants.PREF_CELL_LOCATION, isChecked);
 				boolean committed = editor.commit();
 				while (!committed){
 					committed = editor.commit();
@@ -183,13 +183,13 @@ public class PreferencesActivity extends Activity {
 		
 		chk = new CheckBox(this);
 		chk.setText(getString(R.string.chk_battery_changed));
-		chk.setChecked(preferences.getBoolean(getString(R.string.pref_battery), false));
+		chk.setChecked(preferences.getBoolean(Constants.PREF_BATTERY, false));
 		chk.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				SharedPreferences.Editor editor = preferences.edit();
-				editor.putBoolean(getString(R.string.pref_battery), isChecked);
+				editor.putBoolean(Constants.PREF_BATTERY, isChecked);
 				boolean committed = editor.commit();
 				while (!committed){
 					committed = editor.commit();
@@ -202,13 +202,13 @@ public class PreferencesActivity extends Activity {
 		
 		chk = new CheckBox(this);
 		chk.setText(getString(R.string.chk_light_sensor));
-		chk.setChecked(preferences.getBoolean(getString(R.string.pref_light_sensor), false));
+		chk.setChecked(preferences.getBoolean(Constants.PREF_LIGHT_SENSOR, false));
 		chk.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				SharedPreferences.Editor editor = preferences.edit();
-				editor.putBoolean(getString(R.string.pref_light_sensor), isChecked);
+				editor.putBoolean(Constants.PREF_LIGHT_SENSOR, isChecked);
 				boolean committed = editor.commit();
 				while (!committed){
 					committed = editor.commit();
@@ -225,7 +225,7 @@ public class PreferencesActivity extends Activity {
 //		save preference for upload URL
 		EditText txt_url = (EditText)findViewById(R.id.txt_url);
 		SharedPreferences.Editor editor = preferences.edit();
-		editor.putString(getString(R.string.pref_upload_url), txt_url.getText().toString());
+		editor.putString(Constants.PREF_UPLOAD_URL, txt_url.getText().toString());
 		editor.commit();
 		
 //		notify the service about changes to the settings

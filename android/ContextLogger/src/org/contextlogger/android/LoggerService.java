@@ -4,7 +4,6 @@ import org.contextlogger.android.sensors.BatteryReceiver;
 import org.contextlogger.android.sensors.LightSensorReceiver;
 import org.contextlogger.android.sensors.StateListener;
 import org.contextlogger.android.sensors.WifiReceiver;
-import org.contextlogger.android.R;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -116,49 +115,49 @@ public class LoggerService extends Service {
 	}
 	
 	private void updateSensorRegistrations(){
-		if (preferences.getBoolean(getString(R.string.pref_signal_strenghts), false)){
+		if (preferences.getBoolean(Constants.PREF_SIGNAL_STRENGTHS, false)){
 			sourcePhoneState.listen(sl_signalStrengths = new StateListener(), PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
 		} else {
 			if (sl_signalStrengths != null){
 				sourcePhoneState.listen(sl_signalStrengths, PhoneStateListener.LISTEN_NONE);
 			}
 		}
-		if (preferences.getBoolean(getString(R.string.pref_cell_location), false)){
+		if (preferences.getBoolean(Constants.PREF_CELL_LOCATION, false)){
 			sourcePhoneState.listen(sl_cellLocation = new StateListener(), PhoneStateListener.LISTEN_CELL_LOCATION);
 		} else {  
 			if (sl_cellLocation != null){
 				sourcePhoneState.listen(sl_cellLocation, PhoneStateListener.LISTEN_NONE);
 			}
 		}
-		if (preferences.getBoolean(getString(R.string.pref_call_state), false)){
+		if (preferences.getBoolean(Constants.PREF_CALL_STATE, false)){
 			sourcePhoneState.listen(sl_callState = new StateListener(), PhoneStateListener.LISTEN_CALL_STATE);
 		} else {
 			if (sl_callState != null){
 				sourcePhoneState.listen(sl_callState, PhoneStateListener.LISTEN_NONE);
 			}
 		}
-		if (preferences.getBoolean(getString(R.string.pref_call_forwarding), false)){
+		if (preferences.getBoolean(Constants.PREF_CALL_FORWARDING, false)){
 			sourcePhoneState.listen(sl_callForwarding = new StateListener(), PhoneStateListener.LISTEN_CALL_FORWARDING_INDICATOR);
 		} else {
 			if (sl_callForwarding != null){
 				sourcePhoneState.listen(sl_callForwarding, PhoneStateListener.LISTEN_NONE);
 			}
 		}
-		if (preferences.getBoolean(getString(R.string.pref_data_connection_state), false)){
+		if (preferences.getBoolean(Constants.PREF_DATA_CONNECTION_STATE, false)){
 			sourcePhoneState.listen(sl_dataConnection = new StateListener(), PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
 		} else {
 			if (sl_dataConnection != null){
 				sourcePhoneState.listen(sl_dataConnection, PhoneStateListener.LISTEN_NONE);
 			}
 		}
-		if (preferences.getBoolean(getString(R.string.pref_service_state), false)){
+		if (preferences.getBoolean(Constants.PREF_SERVICE_STATE, false)){
 			sourcePhoneState.listen(sl_serviceState = new StateListener(), PhoneStateListener.LISTEN_SERVICE_STATE);
 		} else {
 			if (sl_serviceState != null){
 				sourcePhoneState.listen(sl_serviceState, PhoneStateListener.LISTEN_NONE);
 			}
 		}
-		if (preferences.getBoolean(getString(R.string.pref_wifi_onoff), false)){
+		if (preferences.getBoolean(Constants.PREF_WIFI_ONOFF, false)){
         	wifiReceiver = new WifiReceiver();
         	registerReceiver(wifiReceiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
         } else {
@@ -171,7 +170,7 @@ public class LoggerService extends Service {
     		}
         }
 		
-		if (preferences.getBoolean(getString(R.string.pref_battery), false)){
+		if (preferences.getBoolean(Constants.PREF_BATTERY, false)){
         	batteryReceiver = new BatteryReceiver();
         	registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         } else {
@@ -184,7 +183,7 @@ public class LoggerService extends Service {
     		}
         }
 		
-		if (preferences.getBoolean(getString(R.string.pref_light_sensor), false)){
+		if (preferences.getBoolean(Constants.PREF_LIGHT_SENSOR, false)){
         	if (lightSensor == null)
         		lightSensor = new LightSensorReceiver(this);
         } else {

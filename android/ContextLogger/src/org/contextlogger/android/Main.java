@@ -51,7 +51,7 @@ public class Main extends Activity {
 		preferences = getSharedPreferences(LoggerService.PREFERENCES, MODE_WORLD_WRITEABLE);
 		
 		// determine if first run and set the preferences
-		if (preferences.getBoolean(getString(R.string.pref_first_run), true)){
+		if (preferences.getBoolean(Constants.PREF_FIRST_RUN, true)){
 			onFirstRun();
 		}
 		
@@ -127,12 +127,12 @@ public class Main extends Activity {
     }
     
     public void btn_export_clicked(View v){
-    	new ExportDatabaseFileTask().execute(preferences.getString(getString(R.string.pref_upload_url), ""), ExportDatabaseFileTask.ACTION_EXPORT);
+    	new ExportDatabaseFileTask().execute(preferences.getString(Constants.PREF_UPLOAD_URL, ""), ExportDatabaseFileTask.ACTION_EXPORT);
     }
     
     @Override
 	protected void onResume() {
-		if (preferences.getString(getString(R.string.pref_upload_url), "").equals("")){
+		if (preferences.getString(Constants.PREF_UPLOAD_URL, "").equals("")){
 //			disable buttons
 			findViewById(R.id.btn_upload).setEnabled(false);
 		} else {
@@ -143,25 +143,25 @@ public class Main extends Activity {
 	}
 
 	public void btn_upload_clicked(View v){
-		new ExportDatabaseFileTask().execute(preferences.getString(getString(R.string.pref_upload_url), ""), ExportDatabaseFileTask.ACTION_UPLOAD);
+		new ExportDatabaseFileTask().execute(preferences.getString(Constants.PREF_UPLOAD_URL, ""), ExportDatabaseFileTask.ACTION_UPLOAD);
     }
     
     private void onFirstRun(){
 //    	set all to true as default
     	SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean(getString(R.string.pref_signal_strenghts), true);
-        editor.putBoolean(getString(R.string.pref_call_forwarding), true);
-        editor.putBoolean(getString(R.string.pref_call_state), true);
-        editor.putBoolean(getString(R.string.pref_cell_location), true);
-        editor.putBoolean(getString(R.string.pref_data_connection_state), true);
-        editor.putBoolean(getString(R.string.pref_service_state), true);
-        editor.putBoolean(getString(R.string.pref_wifi_onoff), true);
-        editor.putBoolean(getString(R.string.pref_wifi_networks), true);
-        editor.putBoolean(getString(R.string.pref_bt_devices), true);
-        editor.putInt(getString(R.string.pref_bt_frequency), 10);
+        editor.putBoolean(Constants.PREF_SIGNAL_STRENGTHS, true);
+        editor.putBoolean(Constants.PREF_CALL_FORWARDING, true);
+        editor.putBoolean(Constants.PREF_CALL_STATE, true);
+        editor.putBoolean(Constants.PREF_CELL_LOCATION, true);
+        editor.putBoolean(Constants.PREF_DATA_CONNECTION_STATE, true);
+        editor.putBoolean(Constants.PREF_SERVICE_STATE, true);
+        editor.putBoolean(Constants.PREF_WIFI_ONOFF, true);
+        editor.putBoolean(Constants.PREF_WIFI_NETWORKS, true);
+        editor.putBoolean(Constants.PREF_BT_DEVICES, true);
+        editor.putInt(Constants.PREF_BT_FREQUENCY, 40);
         
         // mark that the first run has already happened
-        editor.putBoolean(getString(R.string.pref_first_run), false);
+        editor.putBoolean(Constants.PREF_FIRST_RUN, false);
         editor.commit();
     }
 }
