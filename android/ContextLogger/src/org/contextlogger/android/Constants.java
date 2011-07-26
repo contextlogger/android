@@ -15,5 +15,5 @@ public class Constants {
 	public final static String PREF_WIFI_NETWORKS = "pref_wifi_networks";
 	public final static String PREF_BT_DEVICES = "pref_bt_devices";
 	public final static String PREF_BT_FREQUENCY = "pref_bt_frequency";
-	
+	public final static String PREF_HEADSET_EVENTS = "pref_headset_events";
 }

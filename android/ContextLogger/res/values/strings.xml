@@ -17,5 +17,6 @@
     <string name="chk_battery_changed">Battery notifications</string>
     <string name="lbl_upload_url">Upload URL</string>
     <string name="lbl_save_instructions">When you press \'Back\' the preferences will be saved and applied.</string>
+    <string name="chk_headset_events">Headset events</string>
     
 </resources>

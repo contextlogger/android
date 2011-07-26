@@ -45,6 +45,7 @@ public final class R {
         public static final int chk_call_state=0x7f04000c;
         public static final int chk_cell_location=0x7f04000a;
         public static final int chk_data_connection=0x7f04000e;
+        public static final int chk_headset_events=0x7f040014;
         public static final int chk_light_sensor=0x7f04000f;
         public static final int chk_service_status=0x7f040010;
         public static final int chk_signal_strengths=0x7f040009;

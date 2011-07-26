@@ -1,6 +1,7 @@
 package org.contextlogger.android;
 
 import org.contextlogger.android.sensors.BatteryReceiver;
+import org.contextlogger.android.sensors.HeadsetReceiver;
 import org.contextlogger.android.sensors.LightSensorReceiver;
 import org.contextlogger.android.sensors.StateListener;
 import org.contextlogger.android.sensors.WifiReceiver;
@@ -26,6 +27,7 @@ public class LoggerService extends Service {
 	private TelephonyManager sourcePhoneState;
 	private StateListener sl_signalStrengths, sl_cellLocation, sl_callState, sl_callForwarding, sl_dataConnection, sl_serviceState;
 	private LightSensorReceiver lightSensor;
+	private HeadsetReceiver headsetReceiver;
 	private SharedPreferences preferences;
 	private IRemoteLogger.Stub remoteInterfaceBinder = new IRemoteLogger.Stub() {
 		
@@ -191,6 +193,20 @@ public class LoggerService extends Service {
     			try {
     				lightSensor.unregister();
     				lightSensor = null;
+    			} catch (IllegalArgumentException e){
+    				// do nothing, this is just a work around the lack for an api to check if the receiver is registered
+    			}
+    		}
+        }
+		
+		if (preferences.getBoolean(Constants.PREF_HEADSET_EVENTS, false)){
+        	if (headsetReceiver == null)
+        		headsetReceiver = new HeadsetReceiver(this);
+        } else {
+        	if (headsetReceiver != null){
+    			try {
+    				headsetReceiver.unregister();
+    				headsetReceiver = null;
     			} catch (IllegalArgumentException e){
     				// do nothing, this is just a work around the lack for an api to check if the receiver is registered
     			}

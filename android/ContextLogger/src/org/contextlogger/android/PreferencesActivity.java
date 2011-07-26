@@ -218,6 +218,25 @@ public class PreferencesActivity extends Activity {
 		});
 
 		list.addView(chk);
+		
+		chk = new CheckBox(this);
+		chk.setText(getString(R.string.chk_headset_events));
+		chk.setChecked(preferences.getBoolean(Constants.PREF_HEADSET_EVENTS, false));
+		chk.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				SharedPreferences.Editor editor = preferences.edit();
+				editor.putBoolean(Constants.PREF_HEADSET_EVENTS, isChecked);
+				boolean committed = editor.commit();
+				while (!committed){
+					committed = editor.commit();
+				}
+//				notifyService();
+			}
+		});
+
+		list.addView(chk);
 	}
 	
 	@Override
