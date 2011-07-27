@@ -9,10 +9,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-public class HeadsetReceiver extends BroadcastReceiver {
+public class HeadsetReceiver extends BroadcastReceiver implements iSensor {
 	Context c;
 	
 	public HeadsetReceiver(Context c){
+		this.c = c;
 		c.registerReceiver(this, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
 	}
 	
@@ -28,7 +29,7 @@ public class HeadsetReceiver extends BroadcastReceiver {
 		values.put(DatabaseHelper.TABLE_HEADSET_EVENTS_NAME, "" + name);
 		LoggerService.db.insert(DatabaseHelper.TABLE_NAME_HEADSET_EVENTS, null, values);
 	}
-
+ 
 	public void unregister() {
 		c.unregisterReceiver(this);
 	}

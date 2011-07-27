@@ -33,19 +33,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		try {
-			db.execSQL(DROP_TABLE_CALL_STATE);
-			db.execSQL(DROP_TABLE_SIGNAL_STRENGTH);
-			db.execSQL(DROP_TABLE_CELL_LOCATION);
-			db.execSQL(DROP_TABLE_CALL_FORWARDING);
-			db.execSQL(DROP_TABLE_DATA_CONNECTION_STATE);
-			db.execSQL(DROP_TABLE_SERVICE_STATE);
-			db.execSQL(DROP_TABLE_WIFI_ONOFF);
-			db.execSQL(DROP_TABLE_WIFI_NETWORKS);
-			db.execSQL(DROP_TABLE_BT_DEVICES);
-			db.execSQL(DROP_TABLE_BT_STATE);
-			db.execSQL(DROP_TABLE_BATTERY_INFO);
-			db.execSQL(DROP_TABLE_LIGHT_DATA);
-			db.execSQL(DROP_TABLE_HEADSET_EVENTS);
+			db.execSQL(DROP_TABLE + TABLE_NAME_BATTERY_INFO);
+			db.execSQL(DROP_TABLE + TABLE_NAME_BT_DEVICES);
+			db.execSQL(DROP_TABLE + TABLE_NAME_BT_STATE);
+			db.execSQL(DROP_TABLE + TABLE_NAME_CALL_FORWARDING);
+			db.execSQL(DROP_TABLE + TABLE_NAME_CALL_STATE);
+			db.execSQL(DROP_TABLE + TABLE_NAME_CELL_LOCATION);
+			db.execSQL(DROP_TABLE + TABLE_NAME_DATA_CONNECTION_STATE);
+			db.execSQL(DROP_TABLE + TABLE_NAME_HEADSET_EVENTS);
+			db.execSQL(DROP_TABLE + TABLE_NAME_LIGHT_DATA);
+			db.execSQL(DROP_TABLE + TABLE_NAME_SERVICE_STATE);
+			db.execSQL(DROP_TABLE + TABLE_NAME_SIGNAL_STRENGTH);
+			db.execSQL(DROP_TABLE + TABLE_NAME_WIFI_NETWORKS);
+			db.execSQL(DROP_TABLE + TABLE_NAME_WIFI_ONOFF);
 		} catch (Exception e) {
 //			do nothing, it's probably that the table doesn't exist yet
 //			TODO improve in the future so that the logger figures out by itself the difference between versions
@@ -70,19 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private final String CREATE_TABLE_HEADSET_EVENTS = "CREATE TABLE headset_events (time NUMERIC, status NUMERIC, microphone NUMERIC, name TEXT)";
 	
 //	SQL for deleting tables
-	private final String DROP_TABLE_SIGNAL_STRENGTH = "DROP TABLE signal_strength";
-	private final String DROP_TABLE_CALL_STATE = "DROP TABLE call_state";
-	private final String DROP_TABLE_CELL_LOCATION = "DROP TABLE cell_location";
-	private final String DROP_TABLE_CALL_FORWARDING = "DROP TABLE call_forwarding";
-	private final String DROP_TABLE_DATA_CONNECTION_STATE = "DROP TABLE data_connection_state";
-	private final String DROP_TABLE_SERVICE_STATE = "DROP TABLE service_state";
-	private final String DROP_TABLE_WIFI_ONOFF = "DROP TABLE wifi_onoff";
-	private final String DROP_TABLE_WIFI_NETWORKS = "DROP TABLE wifi_networks";
-	private final String DROP_TABLE_BT_DEVICES = "DROP TABLE bt_devices";
-	private final String DROP_TABLE_BT_STATE = "DROP TABLE bt_state";
-	private final String DROP_TABLE_BATTERY_INFO = "DROP TABLE battery_info";
-	private final String DROP_TABLE_LIGHT_DATA = "DROP TABLE light_data";
-	private final String DROP_TABLE_HEADSET_EVENTS = "DROP TABLE headset_events";
+	private final String DROP_TABLE = "DROP TABLE ";
 	
 //	table specific data
 	public static final String TABLE_NAME_SIGNAL_STRENGTH = "signal_strength";

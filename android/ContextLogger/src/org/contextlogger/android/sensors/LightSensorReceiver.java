@@ -10,7 +10,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-public class LightSensorReceiver implements SensorEventListener {
+public class LightSensorReceiver implements SensorEventListener, iSensor {
 	SensorManager sensors;
 	
 	public LightSensorReceiver(Context c){

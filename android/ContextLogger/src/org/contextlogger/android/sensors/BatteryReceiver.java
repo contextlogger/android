@@ -7,10 +7,17 @@ import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.BatteryManager;
 
-public class BatteryReceiver extends BroadcastReceiver {
-
+public class BatteryReceiver extends BroadcastReceiver implements iSensor {
+	private Context c;
+	
+	public BatteryReceiver(Context c){
+		this.c = c;
+		c.registerReceiver(this, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+	}
+	
 	@Override
 	public void onReceive(Context c, Intent i) {
 //		get data from the intent
@@ -24,7 +31,7 @@ public class BatteryReceiver extends BroadcastReceiver {
 		String technology = i.getExtras().getString(BatteryManager.EXTRA_TECHNOLOGY);
 		int temperature = i.getExtras().getInt(BatteryManager.EXTRA_TEMPERATURE);
 		int voltage = i.getExtras().getInt(BatteryManager.EXTRA_VOLTAGE);
-		
+
 //		store data in db
 		ContentValues values = new ContentValues();
 		values.put(DatabaseHelper.TABLE_BATTERY_INFO_TIME, System.currentTimeMillis()/1000);
@@ -38,6 +45,11 @@ public class BatteryReceiver extends BroadcastReceiver {
 		values.put(DatabaseHelper.TABLE_BATTERY_INFO_TEMPERATURE, "" + temperature);
 		values.put(DatabaseHelper.TABLE_BATTERY_INFO_VOLTAGE, "" + voltage);
 		LoggerService.db.insert(DatabaseHelper.TABLE_NAME_BATTERY_INFO, null, values);
+	}
+
+	@Override
+	public void unregister() {
+		c.unregisterReceiver(this);
 	}
 
 }

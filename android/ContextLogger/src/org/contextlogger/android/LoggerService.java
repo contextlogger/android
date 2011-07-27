@@ -5,16 +5,15 @@ import org.contextlogger.android.sensors.HeadsetReceiver;
 import org.contextlogger.android.sensors.LightSensorReceiver;
 import org.contextlogger.android.sensors.StateListener;
 import org.contextlogger.android.sensors.WifiReceiver;
+import org.contextlogger.android.sensors.iSensor;
+
 import android.app.Service;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
 
 public class LoggerService extends Service {
 	public static final String LOGGER = "org.contextlogger.android.LoggerService.SERVICE";
@@ -24,7 +23,6 @@ public class LoggerService extends Service {
 	private boolean isRunning = false;
 	private BatteryReceiver batteryReceiver;
 	private WifiReceiver wifiReceiver;
-	private TelephonyManager sourcePhoneState;
 	private StateListener sl_signalStrengths, sl_cellLocation, sl_callState, sl_callForwarding, sl_dataConnection, sl_serviceState;
 	private LightSensorReceiver lightSensor;
 	private HeadsetReceiver headsetReceiver;
@@ -53,7 +51,6 @@ public class LoggerService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-        sourcePhoneState = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
         preferences = getSharedPreferences(LoggerService.PREFERENCES, MODE_WORLD_WRITEABLE);
         databaseHelper = new DatabaseHelper(this.getApplicationContext(), null);
         db = databaseHelper.getWritableDatabase();
@@ -87,20 +84,25 @@ public class LoggerService extends Service {
 	public IBinder onBind(Intent arg0) {
 		return remoteInterfaceBinder;
 	}
-
-	private void unregisterPhoneStateReceiver(StateListener sl){
-		if (sl != null){
-			sourcePhoneState.listen(sl, PhoneStateListener.LISTEN_NONE);
+	
+	private void clearReceiver(iSensor br){
+		if (br != null){
+			try {
+				br.unregister();
+			} catch (IllegalArgumentException e){
+//				work around for not being able to detect if receiver is registered
+			}
+			br = null;
 		}
 	}
 	
 	private void clearAllListeners(){
-		unregisterPhoneStateReceiver(sl_callForwarding);
-		unregisterPhoneStateReceiver(sl_callState);
-		unregisterPhoneStateReceiver(sl_cellLocation);
-		unregisterPhoneStateReceiver(sl_dataConnection);
-		unregisterPhoneStateReceiver(sl_serviceState);
-		unregisterPhoneStateReceiver(sl_signalStrengths);
+		clearReceiver(sl_callForwarding);
+		clearReceiver(sl_callState);
+		clearReceiver(sl_cellLocation);
+		clearReceiver(sl_dataConnection);
+		clearReceiver(sl_serviceState);
+		clearReceiver(sl_signalStrengths);
 		
 		if (wifiReceiver != null){
 			try {
@@ -111,106 +113,68 @@ public class LoggerService extends Service {
 			}
 		}
 		
-		if (lightSensor != null){
-			lightSensor.unregister();
-		}
+		clearReceiver(batteryReceiver);
+		clearReceiver(headsetReceiver);
+		clearReceiver(lightSensor);
 	}
 	
 	private void updateSensorRegistrations(){
-		if (preferences.getBoolean(Constants.PREF_SIGNAL_STRENGTHS, false)){
-			sourcePhoneState.listen(sl_signalStrengths = new StateListener(), PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
-		} else {
-			if (sl_signalStrengths != null){
-				sourcePhoneState.listen(sl_signalStrengths, PhoneStateListener.LISTEN_NONE);
+		if (isRunning){
+			if (preferences.getBoolean(Constants.PREF_SIGNAL_STRENGTHS, false)){
+				sl_signalStrengths = new StateListener(this, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
+			} else {
+				clearReceiver(sl_signalStrengths);
 			}
-		}
-		if (preferences.getBoolean(Constants.PREF_CELL_LOCATION, false)){
-			sourcePhoneState.listen(sl_cellLocation = new StateListener(), PhoneStateListener.LISTEN_CELL_LOCATION);
-		} else {  
-			if (sl_cellLocation != null){
-				sourcePhoneState.listen(sl_cellLocation, PhoneStateListener.LISTEN_NONE);
+			if (preferences.getBoolean(Constants.PREF_CELL_LOCATION, false)){
+				sl_cellLocation = new StateListener(this, PhoneStateListener.LISTEN_CELL_LOCATION);
+			} else {  
+				clearReceiver(sl_cellLocation);
 			}
-		}
-		if (preferences.getBoolean(Constants.PREF_CALL_STATE, false)){
-			sourcePhoneState.listen(sl_callState = new StateListener(), PhoneStateListener.LISTEN_CALL_STATE);
-		} else {
-			if (sl_callState != null){
-				sourcePhoneState.listen(sl_callState, PhoneStateListener.LISTEN_NONE);
+			if (preferences.getBoolean(Constants.PREF_CALL_STATE, false)){
+				sl_callState = new StateListener(this, PhoneStateListener.LISTEN_CALL_STATE);
+			} else {
+				clearReceiver(sl_callState);
 			}
-		}
-		if (preferences.getBoolean(Constants.PREF_CALL_FORWARDING, false)){
-			sourcePhoneState.listen(sl_callForwarding = new StateListener(), PhoneStateListener.LISTEN_CALL_FORWARDING_INDICATOR);
-		} else {
-			if (sl_callForwarding != null){
-				sourcePhoneState.listen(sl_callForwarding, PhoneStateListener.LISTEN_NONE);
+			if (preferences.getBoolean(Constants.PREF_CALL_FORWARDING, false)){
+				sl_callForwarding = new StateListener(this, PhoneStateListener.LISTEN_CALL_FORWARDING_INDICATOR);
+			} else {
+				clearReceiver(sl_callForwarding);
 			}
-		}
-		if (preferences.getBoolean(Constants.PREF_DATA_CONNECTION_STATE, false)){
-			sourcePhoneState.listen(sl_dataConnection = new StateListener(), PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
-		} else {
-			if (sl_dataConnection != null){
-				sourcePhoneState.listen(sl_dataConnection, PhoneStateListener.LISTEN_NONE);
+			if (preferences.getBoolean(Constants.PREF_DATA_CONNECTION_STATE, false)){
+				sl_dataConnection = new StateListener(this, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+			} else {
+				clearReceiver(sl_dataConnection);
 			}
-		}
-		if (preferences.getBoolean(Constants.PREF_SERVICE_STATE, false)){
-			sourcePhoneState.listen(sl_serviceState = new StateListener(), PhoneStateListener.LISTEN_SERVICE_STATE);
-		} else {
-			if (sl_serviceState != null){
-				sourcePhoneState.listen(sl_serviceState, PhoneStateListener.LISTEN_NONE);
+			if (preferences.getBoolean(Constants.PREF_SERVICE_STATE, false)){
+				sl_serviceState = new StateListener(this, PhoneStateListener.LISTEN_SERVICE_STATE);
+			} else {
+				clearReceiver(sl_serviceState);
 			}
-		}
-		if (preferences.getBoolean(Constants.PREF_WIFI_ONOFF, false)){
-        	wifiReceiver = new WifiReceiver();
-        	registerReceiver(wifiReceiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
-        } else {
-        	if (wifiReceiver != null){
-    			try {
-    				unregisterReceiver(wifiReceiver);
-    			} catch (IllegalArgumentException e){
-    				// do nothing, this is just a work around the lack for an api to check if the receiver is registered
-    			}
-    		}
-        }
-		
-		if (preferences.getBoolean(Constants.PREF_BATTERY, false)){
-        	batteryReceiver = new BatteryReceiver();
-        	registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-        } else {
-        	if (batteryReceiver != null){
-    			try {
-    				unregisterReceiver(batteryReceiver);
-    			} catch (IllegalArgumentException e){
-    				// do nothing, this is just a work around the lack for an api to check if the receiver is registered
-    			}
-    		}
-        }
-		
-		if (preferences.getBoolean(Constants.PREF_LIGHT_SENSOR, false)){
-        	if (lightSensor == null)
-        		lightSensor = new LightSensorReceiver(this);
-        } else {
-        	if (lightSensor != null){
-    			try {
-    				lightSensor.unregister();
-    				lightSensor = null;
-    			} catch (IllegalArgumentException e){
-    				// do nothing, this is just a work around the lack for an api to check if the receiver is registered
-    			}
-    		}
-        }
-		
-		if (preferences.getBoolean(Constants.PREF_HEADSET_EVENTS, false)){
-        	if (headsetReceiver == null)
-        		headsetReceiver = new HeadsetReceiver(this);
-        } else {
-        	if (headsetReceiver != null){
-    			try {
-    				headsetReceiver.unregister();
-    				headsetReceiver = null;
-    			} catch (IllegalArgumentException e){
-    				// do nothing, this is just a work around the lack for an api to check if the receiver is registered
-    			}
-    		}
-        }
+			if (preferences.getBoolean(Constants.PREF_WIFI_ONOFF, false)){
+	        	wifiReceiver = new WifiReceiver(this);
+	        } else {
+	        	clearReceiver(wifiReceiver);
+	        }
+			
+			if (preferences.getBoolean(Constants.PREF_BATTERY, false)){
+	//        	instantiate and register receiver
+				batteryReceiver = new BatteryReceiver(this);
+	        } else {
+	    		clearReceiver(batteryReceiver);
+	        }
+			
+			if (preferences.getBoolean(Constants.PREF_LIGHT_SENSOR, false)){
+	    		lightSensor = new LightSensorReceiver(this);
+	        } else {
+	    		clearReceiver(lightSensor);
+	        }
+			
+			if (preferences.getBoolean(Constants.PREF_HEADSET_EVENTS, false)){
+	        	if (headsetReceiver == null)
+	        		headsetReceiver = new HeadsetReceiver(this);
+	        } else {
+	        	clearReceiver(headsetReceiver);
+	        }
+		} 
 	}
 }

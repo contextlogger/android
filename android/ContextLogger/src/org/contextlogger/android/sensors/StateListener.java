@@ -4,6 +4,7 @@ import org.contextlogger.android.DatabaseHelper;
 import org.contextlogger.android.LoggerService;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.telephony.CellLocation;
 import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
@@ -11,17 +12,15 @@ import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
 import android.util.Log;
-import android.widget.TextView;
 
-public class StateListener extends PhoneStateListener {
-	private TextView tv;
-	
-	public TextView getTv() {
-		return tv;
-	}
-
-	public void setTv(TextView tv) {
-		this.tv = tv;
+public class StateListener extends PhoneStateListener implements iSensor {
+	@SuppressWarnings("unused")
+	private Context c;
+	private TelephonyManager tlf;
+	public StateListener(Context c, final int whatToListenTo) {
+		this.c = c;
+		tlf = (TelephonyManager)c.getSystemService(Context.TELEPHONY_SERVICE);
+		tlf.listen(this, whatToListenTo);
 	}
 
 	@Override
@@ -80,6 +79,11 @@ public class StateListener extends PhoneStateListener {
 		values.put(DatabaseHelper.TABLE_SERVICE_STATE_TIME, System.currentTimeMillis()/1000);
 		values.put(DatabaseHelper.TABLE_SERVICE_STATE_VALUE, "" + serviceState.getState());
 		LoggerService.db.insert(DatabaseHelper.TABLE_NAME_SERVICE_STATE, null, values);
+	}
+
+	@Override
+	public void unregister() {
+		tlf.listen(this, PhoneStateListener.LISTEN_NONE);
 	}
 	
 	
