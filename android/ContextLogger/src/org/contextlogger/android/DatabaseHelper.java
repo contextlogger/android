@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "CL_database.db";
-	private static final int DATABASE_VERSION = 10;
+	private static final int DATABASE_VERSION = 11;
 	
 	public DatabaseHelper(Context context, CursorFactory factory) {
 		super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -67,7 +67,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private final String CREATE_TABLE_BT_STATE = "CREATE TABLE bt_state (time NUMERIC, state NUMERIC, byUser NUMERIC)";
 	private final String CREATE_TABLE_BATTERY_INFO = "CREATE TABLE battery_info (time NUMERIC, health NUMERIC, level NUMERIC, maxLevel NUMERIC, plugged NUMERIC, present NUMERIC, status NUMERIC, technology TEXT, temperature NUMERIC, voltage NUMERIC)";
 	private final String CREATE_TABLE_LIGHT_DATA = "CREATE TABLE light_data (time NUMERIC, value NUMERIC)";
-	private final String CREATE_TABLE_HEADSET_EVENTS = "CREATE TABLE headset_events (time NUMERIC, status NUMERIC, micrphone NUMERIC, name TEXT)";
+	private final String CREATE_TABLE_HEADSET_EVENTS = "CREATE TABLE headset_events (time NUMERIC, status NUMERIC, microphone NUMERIC, name TEXT)";
 	
 //	SQL for deleting tables
 	private final String DROP_TABLE_SIGNAL_STRENGTH = "DROP TABLE signal_strength";
